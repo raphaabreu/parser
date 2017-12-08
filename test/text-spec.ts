@@ -11,9 +11,7 @@ import test from "ava";
 import * as parse from "../src/Parse";
 
 test("Should parse string as text", t => {
-    const value = "test";
-
-    t.is(parse.text(value), "test");
+    t.is(parse.text("test"), "test");
 });
 
 test("Should throw if trying to parse number as text", t => {
@@ -27,7 +25,7 @@ test("Should throw if trying to parse number as text", t => {
     t.is(error.rule, "text");
 });
 
-test("Should throw if trying to parse object as text", t => {
+test("Should throw if trying to parse an object as text", t => {
     const value = { test: "a" };
     const error = t.throws(() => {
         parse.text(value);

@@ -13,9 +13,14 @@ import { ParseError } from "./ParseError";
  * Parses the given value as a floating point number.
  */
 export function float(value: any): number {
-    const ret = parseFloat(value);
-
-    if (isNaN(ret * 1)) {
+    if (String(value).trim() === "") {
+        throw new ParseError(
+            "Parse error: value should be a number",
+            value,
+            "float"
+        );
+    }
+    if (isNaN(value * 1)) {
         throw new ParseError(
             "Parse error: " + value + " should be a number",
             value,
@@ -23,7 +28,7 @@ export function float(value: any): number {
         );
     }
 
-    return ret;
+    return Number(value);
 }
 
 /**
@@ -54,6 +59,40 @@ export function positiveFloat(value: any): number {
             "Parse error: " + value + " should be a positive number",
             value,
             "positiveFloat"
+        );
+    }
+
+    return ret;
+}
+
+/**
+ * Parses the given value as a zero or negative floating point number.
+ */
+export function zeroOrNegativeFloat(value: any): number {
+    const ret = float(value);
+
+    if (ret > 0) {
+        throw new ParseError(
+            "Parse error: " + value + " should be zero or a negative number",
+            value,
+            "zeroOrNegativeFloat"
+        );
+    }
+
+    return ret;
+}
+
+/**
+ * Parses the given value as a negative floating point number.
+ */
+export function negativeFloat(value: any): number {
+    const ret = float(value);
+
+    if (ret >= 0) {
+        throw new ParseError(
+            "Parse error: " + value + " should be a negative number",
+            value,
+            "negativeFloat"
         );
     }
 
@@ -105,6 +144,40 @@ export function positiveInteger(value: any): number {
             "Parse error: " + value + " should be a positive integer",
             value,
             "positiveInteger"
+        );
+    }
+
+    return ret;
+}
+
+/**
+ * Parses the given value as a zero or negative integer.
+ */
+export function zeroOrNegativeInteger(value: any): number {
+    const ret = integer(value);
+
+    if (ret > 0) {
+        throw new ParseError(
+            "Parse error: " + value + " should be zero or a negative integer",
+            value,
+            "zeroOrNegativeInteger"
+        );
+    }
+
+    return ret;
+}
+
+/**
+ * Parses the given value as a negative integer.
+ */
+export function negativeInteger(value: any): number {
+    const ret = integer(value);
+
+    if (ret >= 0) {
+        throw new ParseError(
+            "Parse error: " + value + " should be a negative integer",
+            value,
+            "negativeInteger"
         );
     }
 
@@ -205,7 +278,6 @@ export function matchingEnum<T>(value: any, enumToMatch: any): T {
         .filter(name => name !== "");
 
     if (options.indexOf(value + "") === -1) {
-        console.log(options, value + "");
         throw new ParseError(
             "Parse error: " +
                 value +

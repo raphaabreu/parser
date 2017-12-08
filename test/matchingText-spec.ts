@@ -11,9 +11,7 @@ import test from "ava";
 import * as parse from "../src/Parse";
 
 test("Should parse matching string as matching text", t => {
-    const value = "lion";
-
-    t.is(parse.matchingText(value, /(penguin|lion|cow|bird)/), "lion");
+    t.is(parse.matchingText("lion", /(penguin|lion|cow|bird)/), "lion");
 });
 
 test("Should throw if trying to parse empty string as non-empty text", t => {
@@ -30,7 +28,7 @@ test("Should throw if trying to parse empty string as non-empty text", t => {
     t.is(error.rule, "matchingText");
 });
 
-test("Should throw if trying to parse object as matching text", t => {
+test("Should throw if trying to parse an object as matching text", t => {
     const value = { test: "a" };
     const error = t.throws(() => {
         parse.matchingText(value, /.*?/);

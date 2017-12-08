@@ -28,7 +28,7 @@ enum MixedEnum {
     OptionC = 10
 }
 
-test.only("Should match a string enum", t => {
+test("Should match a string enum", t => {
     t.is(
         parse.matchingEnum<StringEnum>("one", StringEnum),
         StringEnum.OptionOne
@@ -43,13 +43,13 @@ test.only("Should match a string enum", t => {
     );
 });
 
-test.only("Should match a number enum", t => {
+test("Should match a number enum", t => {
     t.is(parse.matchingEnum<NumberEnum>(0, NumberEnum), NumberEnum.OptionA);
     t.is(parse.matchingEnum<NumberEnum>(1, NumberEnum), NumberEnum.OptionB);
     t.is(parse.matchingEnum<NumberEnum>(2, NumberEnum), NumberEnum.OptionC);
 });
 
-test.only("Should match a mixed enum", t => {
+test("Should match a mixed enum", t => {
     t.is(parse.matchingEnum<MixedEnum>(0, MixedEnum), MixedEnum.OptionA);
     t.is(parse.matchingEnum<MixedEnum>("bb", MixedEnum), MixedEnum.OptionB);
     t.is(parse.matchingEnum<MixedEnum>(10, MixedEnum), MixedEnum.OptionC);
@@ -83,7 +83,7 @@ test("Should throw if trying to parse non-matching number as matching number enu
     t.is(error.rule, "matchingEnum");
 });
 
-test("Should throw if trying to parse object as matching string enum", t => {
+test("Should throw if trying to parse an object as matching string enum", t => {
     const value = { test: "a" };
     const error = t.throws(() => {
         parse.matchingEnum<StringEnum>(value, StringEnum);
@@ -97,7 +97,7 @@ test("Should throw if trying to parse object as matching string enum", t => {
     t.is(error.rule, "matchingEnum");
 });
 
-test("Should throw if trying to parse object as matching number enum", t => {
+test("Should throw if trying to parse an object as matching number enum", t => {
     const value = { test: "a" };
     const error = t.throws(() => {
         parse.matchingEnum<NumberEnum>(value, NumberEnum);
@@ -111,7 +111,7 @@ test("Should throw if trying to parse object as matching number enum", t => {
     t.is(error.rule, "matchingEnum");
 });
 
-test("Should throw if trying to parse object as matching mixed enum", t => {
+test("Should throw if trying to parse an object as matching mixed enum", t => {
     const value = { test: "a" };
     const error = t.throws(() => {
         parse.matchingEnum<MixedEnum>(value, MixedEnum);

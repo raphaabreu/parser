@@ -11,9 +11,7 @@ import test from "ava";
 import * as parse from "../src/Parse";
 
 test("Should parse non-empty string as non-empty text", t => {
-    const value = "test";
-
-    t.is(parse.nonEmptyText(value), "test");
+    t.is(parse.nonEmptyText("test"), "test");
 });
 
 test("Should throw if trying to parse empty string as non-empty text", t => {
@@ -27,7 +25,7 @@ test("Should throw if trying to parse empty string as non-empty text", t => {
     t.is(error.rule, "nonEmptyText");
 });
 
-test("Should throw if trying to parse object as non-empty text", t => {
+test("Should throw if trying to parse an object as non-empty text", t => {
     const value = { test: "a" };
     const error = t.throws(() => {
         parse.nonEmptyText(value);
