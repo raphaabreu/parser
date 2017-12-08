@@ -1,6 +1,6 @@
 {
     "name": "@raphaabreu/parser",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Functions to aid parsing and validating data.",
     "license": "MIT",
     "repository": "https://github.com/raphaabreu/parser",
