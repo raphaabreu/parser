@@ -127,27 +127,6 @@ export function array(value: any): any[] {
 }
 
 /**
- * Parses the given value as text if it matches the given regex.
- */
-export function matchingText(value: any, validValues: RegExp): string {
-    const ret = text(value);
-
-    if (!validValues.test(value)) {
-        throw new ParseError(
-            "Parse error: " +
-                value +
-                " should match /" +
-                validValues.source +
-                "/",
-            value,
-            "matchingText"
-        );
-    }
-
-    return ret;
-}
-
-/**
  * Parses the given value as text.
  */
 export function text(value: any): string {
@@ -180,19 +159,58 @@ export function nonEmptyText(value: any): string {
 }
 
 /**
+ * Parses the given value as text if it matches the given regex.
+ */
+export function matchingText(value: any, validValues: RegExp): string {
+    const ret = text(value);
+
+    if (!validValues.test(value)) {
+        throw new ParseError(
+            "Parse error: " +
+                value +
+                " should match /" +
+                validValues.source +
+                "/",
+            value,
+            "matchingText"
+        );
+    }
+
+    return ret;
+}
+
+/**
  * Parses the given value that matches an Enum.
  */
 export function matchingEnum<T>(value: any, enumToMatch: any): T {
-    const options = Object.getOwnPropertyNames(enumToMatch).map(
-        option => enumToMatch[option]
-    );
+    const names = Object.getOwnPropertyNames(enumToMatch)
+        .map(option => {
+            if (enumToMatch[enumToMatch[option]] === option) {
+                return enumToMatch[option] + " (" + option + ")";
+            }
+            if (enumToMatch[enumToMatch[option]] + "" === option) {
+                return "";
+            }
+            return enumToMatch[option];
+        })
+        .filter(name => name !== "");
 
-    if (options.indexOf(value) === -1) {
+    const options = Object.getOwnPropertyNames(enumToMatch)
+        .map(option => {
+            if (typeof enumToMatch[enumToMatch[option]] === "number") {
+                return "";
+            }
+            return enumToMatch[option] + "";
+        })
+        .filter(name => name !== "");
+
+    if (options.indexOf(value + "") === -1) {
+        console.log(options, value + "");
         throw new ParseError(
             "Parse error: " +
                 value +
                 " should be one of the following: " +
-                options.join(", "),
+                names.join(", "),
             value,
             "matchingEnum"
         );
