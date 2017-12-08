@@ -27,8 +27,7 @@
         "watch:test": "run-p watch:test:ts watch:test:ava",
         "precommit": "lint-staged && npm run build"
     },
-    "dependencies": {
-    },
+    "dependencies": {},
     "devDependencies": {
         "@types/node": "^8.0.53",
         "ava": "^0.20.0",
