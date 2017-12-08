@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2015",
+        "outDir": "lib_test",
+        "lib": [
+            "esnext"
+        ],
+        "strict": true,
+        "declaration": false,
+        "noImplicitAny": true,
+        "removeComments": false,
+        "inlineSourceMap": true
+    },
+    "include": [
+        "./test/**/*",
+        "./typings/**/*"
+    ]
+}
