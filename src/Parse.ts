@@ -214,6 +214,25 @@ export function array(value: any): any[] {
 }
 
 /**
+ * Parses the given value as an array that cannot be empty.
+ */
+export function nonEmptyArray(value: any): any[] {
+    const ret = array(value);
+
+    if (ret.length === 0) {
+        throw new ParseError(
+            "Parse error: " +
+                JSON.stringify(value) +
+                " should have at least one element",
+            value,
+            "nonEmptyArray"
+        );
+    }
+
+    return value;
+}
+
+/**
  * Parses the given value as text.
  */
 export function text(value: any): string {
@@ -318,4 +337,38 @@ export function boolean(value: any): boolean {
     }
 
     return value;
+}
+
+/**
+ * Parses the properties of the given object.
+ */
+export function object<T>(
+    obj: T,
+    parseProperty: (key: any, value: any) => any
+): T {
+    const result: any = {};
+
+    for (const key of Object.getOwnPropertyNames(obj)) {
+        result[key] = parseProperty(key, (obj as any)[key]);
+    }
+
+    return result;
+}
+
+/**
+ * Parses the properties of the given object.
+ */
+export function nonEmptyObject<T>(
+    obj: T,
+    parseProperty: (key: any, value: any) => any
+): T {
+    if (Object.getOwnPropertyNames(obj).length === 0) {
+        throw new ParseError(
+            "Parse error: " + obj + " should have at least one property",
+            obj,
+            "nonEmptyObject"
+        );
+    }
+
+    return object<T>(obj, parseProperty);
 }
