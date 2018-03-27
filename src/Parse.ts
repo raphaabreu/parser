@@ -372,3 +372,15 @@ export function nonEmptyObject<T>(
 
     return object<T>(obj, parseProperty);
 }
+
+/**
+ * If the given value is null, null is returned. Non-null values are parsed
+ * using the given function.
+ */
+export function nullOr<T>(value: any, parse: (value: any) => T): T | null {
+    if (value === null) {
+        return null;
+    }
+
+    return parse(value);
+}
