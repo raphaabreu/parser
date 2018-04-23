@@ -28,9 +28,13 @@ test("Should parse string and numbers as floats", t => {
     t.is(parse.float(-5.3), -5.3);
     t.is(parse.float(0), 0);
     t.is(parse.float(14.2), 14.2);
+    t.is(parse.float("-10,000"), -10000);
+    t.is(parse.float("-9,821.100"), -9821.1);
     t.is(parse.float("-10"), -10);
     t.is(parse.float("0"), 0);
     t.is(parse.float("551.1"), 551.1);
+    t.is(parse.float("9,821.100"), 9821.1);
+    t.is(parse.float("10,000"), 10000);
 });
 
 test("Should parse string and numbers as zero or positive floats", t => {

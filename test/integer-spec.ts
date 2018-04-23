@@ -28,9 +28,11 @@ test("Should parse string and numbers as integers", t => {
     t.is(parse.integer(-10), -10);
     t.is(parse.integer(0), 0);
     t.is(parse.integer(10), 10);
+    t.is(parse.integer("-2,310"), -2310);
     t.is(parse.integer("-10"), -10);
     t.is(parse.integer("0"), 0);
     t.is(parse.integer("10"), 10);
+    t.is(parse.integer("2,310"), 2310);
 });
 
 test("Should parse string and numbers as zero or positive integers", t => {

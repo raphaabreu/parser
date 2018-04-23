@@ -34,7 +34,10 @@ export function float(value: any): number {
             "float"
         );
     }
-    if (isNaN(value * 1)) {
+
+    const noCommas: any = String(value).replace(",", "");
+
+    if (isNaN(noCommas * 1)) {
         throw new ParseError(
             "Parse error: " + value + " should be a number",
             value,
@@ -42,7 +45,7 @@ export function float(value: any): number {
         );
     }
 
-    return Number(value);
+    return Number(noCommas);
 }
 
 /**
